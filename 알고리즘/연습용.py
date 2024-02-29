@@ -1,48 +1,23 @@
-# import sys
-# sys.stdin = open("sample_input.txt", "r")
+def fff(loc,res):
+    global min_v
+    if res > min_v: return
+    if sum(visited) == N-1:
+        min_v = res + arr[loc][0]
+        return
+    for i in range(1,N):
+        if loc == i or visited[i] == 1:
+            continue
+        visited[i] = 1
+        fff(i,res+arr[loc][i])
 
-password={
-    '3211': 0,
-    '2221': 1,
-    '2122': 2,
-    '1411': 3,
-    '1132': 4,
-    '1231': 5,
-    '1114': 6,
-    '1312': 7,
-    '1213': 8,
-    '3112': 9,
-}
+        visited[i] = 0
+
 T = int(input())
 for tc in range(T):
-    N,M=map(int,input().split())
-    data=[('1'+input()) for _ in range(N)]
-    for i in data:
-        arr =str(bin(int(i,16)))[3:]
-        lll = len(arr)
-        # print(arr)
-        for i in range(lll):
-            wonbin = [0, 0, 0, 0]
-            if arr[lll-1-i] == '1':
-                test = arr[lll-i-7:lll-i]
-                comp = test[0]
-                a= 0
-                cnt=1
-                for j in test[1:]:
-                    if comp!=j:
-                        wonbin[a]+=cnt
-                        cnt=0
-                        a+=1
-                        comp = j
-                    cnt += 1
-                else: wonbin[a]+=cnt
-                res=''
-                for aa in wonbin:
-                    res+=str(aa)
-                try:
-                    password[res]
-                except:
-                    break
-                break
-
+    N = int(input())
+    arr = [list(map(int,input().split())) for _ in range(N)]
+    min_v = 100000
+    visited = [0]*N
+    fff(0,0)
+    print(f'#{tc+1} {min_v}')
 
